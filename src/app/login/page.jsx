@@ -116,7 +116,7 @@ const Login = () => {
                 {/* Continue Button */}
                 <Link href="/games">
                   <button
-                    className="mt-6 py-2.5 px-10 bg-[#201a18] border-t border-b border-[#ee5d4b] justify-start items-center gap-4 w-full justify-center"
+                    className="mt-6 py-2.5 px-10 bg-[#201a18] border-t border-b border-[#ee5d4b] items-center gap-4 w-full justify-center"
                     onClick={async () => {
                       try {
                         await handleAuthenticate();
@@ -135,7 +135,7 @@ const Login = () => {
                 {/* Logout Button */}
                 <button
                   onClick={() => handleLogout()}
-                  className="mt-4 py-2.5 px-10 bg-[#ee5d4b] border-t border-b border-[#201a18] justify-start items-center gap-4 w-full justify-center"
+                  className="mt-4 py-2.5 px-10 bg-[#ee5d4b] border-t border-b border-[#201a18]  items-center gap-4 w-full justify-center"
                 >
                   <span className="font-satoshi text-white text-sm capitalize">
                     Logout
@@ -154,14 +154,14 @@ const Login = () => {
                 <div className="flex flex-col space-y-4 justify-center items-center h-full">
                   <button
                     onClick={() => signIn("google")}
-                    className="flex py-2.5 px-10 bg-[#201a18] border-t border-b border-[#ee5d4b] justify-start items-center gap-4 w-[600px] justify-center"
+                    className="flex py-2.5 px-10 bg-[#201a18] border-t border-b border-[#ee5d4b] items-center gap-4 w-[600px] justify-center"
                   >
                     <img src="/Search.svg" alt="Google Icon" />
                     <span className="font-satoshi text-white text-sm capitalize">
                       Continue with Google
                     </span>
                   </button>
-                  <p className="text-white text-sm font-bold font-satoshi">
+                  {/* <p className="text-white text-sm font-bold font-satoshi">
                     Or
                   </p>
                   <Link
@@ -172,7 +172,7 @@ const Login = () => {
                     <span className="font-satoshi text-white text-sm capitalize">
                       Continue with email
                     </span>
-                  </Link>
+                  </Link> */}
                 </div>
               </>
             )}
