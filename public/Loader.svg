@@ -1,0 +1,36 @@
+<svg width="106" height="106" viewBox="0 0 106 106" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect width="106" height="106" fill="url(#pattern0_1115_338)"/>
+<g clip-path="url(#clip0_1115_338)">
+<rect x="49.6875" y="35.3334" width="17.6667" height="6.625" transform="rotate(-90 49.6875 35.3334)" fill="#EE5D4B"/>
+<rect x="35.3335" y="56.3125" width="17.6667" height="6.625" transform="rotate(-180 35.3335 56.3125)" fill="#EE5D4B"/>
+<rect x="56.3125" y="70.6666" width="17.6667" height="6.625" transform="rotate(90 56.3125 70.6666)" fill="#EE5D4B"/>
+<rect x="70.6665" y="49.6875" width="17.6667" height="6.625" fill="#EE5D4B"/>
+</g>
+<g clip-path="url(#clip1_1115_338)">
+<rect x="43.729" y="46.6564" width="11.0417" height="4.14062" transform="rotate(-135 43.729 46.6564)" fill="#EE5D4B"/>
+<rect x="46.6562" y="62.2716" width="11.0417" height="4.14062" transform="rotate(135 46.6562 62.2716)" fill="#EE5D4B"/>
+<rect x="62.271" y="59.3435" width="11.0417" height="4.14062" transform="rotate(45 62.271 59.3435)" fill="#EE5D4B"/>
+<rect x="59.3438" y="43.7284" width="11.0417" height="4.14062" transform="rotate(-45 59.3438 43.7284)" fill="#EE5D4B"/>
+</g>
+<g clip-path="url(#clip2_1115_338)">
+<rect x="48.5835" y="53.8281" width="4.41667" height="1.65625" transform="rotate(180 48.5835 53.8281)" fill="#EE5D4B"/>
+<rect x="53.8281" y="57.4166" width="4.41667" height="1.65625" transform="rotate(90 53.8281 57.4166)" fill="#EE5D4B"/>
+<rect x="57.4165" y="52.1719" width="4.41667" height="1.65625" fill="#EE5D4B"/>
+<rect x="52.1719" y="48.5834" width="4.41666" height="1.65625" transform="rotate(-90 52.1719 48.5834)" fill="#EE5D4B"/>
+</g>
+<defs>
+<pattern id="pattern0_1115_338" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_1115_338"/>
+</pattern>
+<clipPath id="clip0_1115_338">
+<rect width="70.6667" height="70.6667" fill="white" transform="translate(17.6665 17.6666)"/>
+</clipPath>
+<clipPath id="clip1_1115_338">
+<rect width="44.1667" height="44.1667" fill="white" transform="translate(21.7695 53) rotate(-45)"/>
+</clipPath>
+<clipPath id="clip2_1115_338">
+<rect width="17.6667" height="17.6667" fill="white" transform="translate(44.1665 61.8334) rotate(-90)"/>
+</clipPath>
+<image id="image0_1115_338" width="1" height="1" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAQSURBVHgBAQUA+v8AAAAAAAAFAAFkeJU4AAAAAElFTkSuQmCC"/>
+</defs>
+</svg>
