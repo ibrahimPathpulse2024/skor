@@ -21,9 +21,10 @@ const Login = () => {
 
   async function handleAuthenticate() {
     if (!idToken) {
-      return { result: false, error: "No google login" };
+      await signIn("google");
     }
     setIsAuthenticating(true);
+    let finalUser = {};
     try {
       const user = await oktoClient.loginUsingOAuth(
         {
@@ -42,6 +43,8 @@ const Login = () => {
           });
         }
       );
+      console.log("authenticated", user);
+      finalUser = user;
     } catch (error) {
       console.error("Authentication error:", error);
       throw error;
@@ -49,9 +52,9 @@ const Login = () => {
       setIsAuthenticating(false);
     }
 
-    console.log("authenticated", user);
-    return JSON.stringify(user);
+    return JSON.stringify(finalUser);
   }
+
 
   const handleLogout = async () => {
     Cookies.remove("next-auth.session-token");
@@ -61,11 +64,14 @@ const Login = () => {
   };
 
   useEffect(() => {
+    if (idToken) {
+      handleAuthenticate();
+    }
     const timer = setTimeout(() => {
       setLoading(false);
     }, 4000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [idToken]);
 
   return (
     <section className="w-screen overflow-hidden">
