@@ -14,8 +14,6 @@ import { USERS_VALIDATE } from "../constant/apiEndPoints"
 import client from "../lib/db"
 import { sendVerificationRequest } from "../lib/email"
 
-
-
 const MS_OF_30_YEARS = 30 * 365 * 24 * 60 * 60 * 1000
 const MS_OF_30_DAYS = 30 * 24 * 60 * 60 * 1000
 const secretKey = process.env.NEXTAUTH_SECRET
@@ -49,6 +47,7 @@ export const nextauthOptions = {
 			clientId: process.env.AUTH_GOOGLE_ID || "",
 			clientSecret: process.env.AUTH_GOOGLE_SECRET || "",
 			authorization: { params: { scope: "openid email profile" } },
+			allowDangerousEmailAccountLinking: true,
 		}),
 		CredentialsProvider({
 			name: "Credentials",
@@ -138,7 +137,6 @@ export const nextauthOptions = {
 
 			if (account && user) {
 				token.id_token = account.id_token;
-				token.userSWA = user.userSWA;
 				token.oktoObject = user.oktoObject;
 			}
 
@@ -146,10 +144,6 @@ export const nextauthOptions = {
 			const dbUser = await db
 				.collection("users")
 				.findOne({ email: token.email });
-
-			if (dbUser?.userSWA) {
-				token.userSWA = dbUser.userSWA;
-			}
 
 			if (dbUser?.oktoObject) {
 				token.oktoObject = dbUser.oktoObject;
@@ -169,7 +163,6 @@ export const nextauthOptions = {
 					session.user.id = token.id
 				}
 			}
-			session.user.userSWA = token.userSWA;
 			session.user.oktoObject = token.oktoObject;
 			session.id_token = token.id_token;
 

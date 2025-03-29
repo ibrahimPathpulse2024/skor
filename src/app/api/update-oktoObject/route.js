@@ -19,7 +19,7 @@ export async function POST(req) {
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to update userSWA" },
+      { error: "Failed to update oktoObject" },
       { status: 500 }
     );
   }
