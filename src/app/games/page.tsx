@@ -132,7 +132,7 @@ const GameSelection = () => {
             ))}
           </div>
 
-          <div className="mt-12 md:mt-16">
+          {/* <div className="mt-12 md:mt-16">
             <Link
               href="/buy"
               className="flex bg-gradient-to-r from-[#ee5d4b] to-[#ec4632] px-5 py-2 md:px-8 md:py-4 border-2 border-black items-center gap-4 md:gap-6 text-base md:text-lg font-chakra font-bold hover:opacity-90 rounded-lg transition-opacity"
@@ -153,7 +153,7 @@ const GameSelection = () => {
                 className="w-6 h-6 md:w-7 md:h-7"
               />
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
