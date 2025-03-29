@@ -13,7 +13,6 @@ const Login = () => {
   const [loading, setLoading] = useState(true);
 
   const oktoClient = useOkto();
-  const [userSWA, setUserSWA] = useState("not signed in");
 
   const router = useRouter();
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -35,25 +34,12 @@ const Login = () => {
           // Store the session info securely
 
           localStorage.setItem("okto_session_info", JSON.stringify(session));
-          setUserSWA(session.userSWA);
-          console.log("user userSWA", session.userSWA);
-
-          await fetch("/api/update-swa", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userSWA: session.userSWA }),
-          });
 
           await fetch("/api/update-oktoObject", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ oktoObject: session }),
           });
-
-          console.log("session", session);
-          console.log(
-            "=-=-=-=-=-=-=-=-=-0=-=-=-00=-=0=-0=-=0=-=0=0=0=0=0=-=-=00689832843898su=--====-=-="
-          );
         }
       );
     } catch (error) {

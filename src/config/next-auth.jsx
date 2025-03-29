@@ -138,7 +138,6 @@ export const nextauthOptions = {
 
 			if (account && user) {
 				token.id_token = account.id_token;
-				token.userSWA = user.userSWA;
 				token.oktoObject = user.oktoObject;
 			}
 
@@ -146,10 +145,6 @@ export const nextauthOptions = {
 			const dbUser = await db
 				.collection("users")
 				.findOne({ email: token.email });
-
-			if (dbUser?.userSWA) {
-				token.userSWA = dbUser.userSWA;
-			}
 
 			if (dbUser?.oktoObject) {
 				token.oktoObject = dbUser.oktoObject;
@@ -169,7 +164,6 @@ export const nextauthOptions = {
 					session.user.id = token.id
 				}
 			}
-			session.user.userSWA = token.userSWA;
 			session.user.oktoObject = token.oktoObject;
 			session.id_token = token.id_token;
 

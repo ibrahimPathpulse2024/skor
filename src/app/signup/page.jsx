@@ -11,7 +11,6 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(true);
 
   const oktoClient = useOkto();
-  const [userSWA, setUserSWA] = useState("not signed in");
 
   const idToken = useMemo(() => (session ? session.id_token : null), [session]);
 
@@ -27,25 +26,12 @@ const LoginPage = () => {
       async (session) => {
 
         localStorage.setItem("okto_session_info", JSON.stringify(session));
-        setUserSWA(session.userSWA);
-        console.log("user userSWA", session.userSWA);
-
-        await fetch("/api/update-swa", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userSWA: session.userSWA }),
-        });
 
         await fetch("/api/update-oktoObject", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ oktoObject: session }),
         });
-
-        console.log("session", session);
-        console.log(
-          "=-=-=-=-=-=-=-=-=-0=-=-=-00=-=0=-0=-=0=-=0=0=0=0=0=-=-=00689832843898su=--====-=-="
-        );
       }
     );
 
@@ -55,10 +41,8 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (idToken) {
-      console.log("==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=");
       console.log("idToken", idToken);
       handleAuthenticate();
-      console.log("userSWA", userSWA);
     }
     const timer = setTimeout(() => {
       setLoading(false);
