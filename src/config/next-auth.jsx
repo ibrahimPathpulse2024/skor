@@ -14,8 +14,6 @@ import { USERS_VALIDATE } from "../constant/apiEndPoints"
 import client from "../lib/db"
 import { sendVerificationRequest } from "../lib/email"
 
-
-
 const MS_OF_30_YEARS = 30 * 365 * 24 * 60 * 60 * 1000
 const MS_OF_30_DAYS = 30 * 24 * 60 * 60 * 1000
 const secretKey = process.env.NEXTAUTH_SECRET
@@ -49,6 +47,7 @@ export const nextauthOptions = {
 			clientId: process.env.AUTH_GOOGLE_ID || "",
 			clientSecret: process.env.AUTH_GOOGLE_SECRET || "",
 			authorization: { params: { scope: "openid email profile" } },
+			allowDangerousEmailAccountLinking: true,
 		}),
 		CredentialsProvider({
 			name: "Credentials",
