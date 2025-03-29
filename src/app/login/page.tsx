@@ -67,7 +67,7 @@ const Login = () => {
     if (idToken) {
       handleAuthenticate();
     }
-  }, [idToken]);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 500);

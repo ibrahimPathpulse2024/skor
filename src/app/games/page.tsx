@@ -27,13 +27,15 @@ const GameSelection = () => {
           provider: "google",
         },
         async (session) => {
-          localStorage.setItem("okto_session_info", JSON.stringify(session));
+          if (!localStorage.getItem("okto_session_info")) {
+            await fetch("/api/update-oktoObject", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ oktoObject: session }),
+            });
+          }
 
-          await fetch("/api/update-oktoObject", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ oktoObject: session }),
-          });
+          localStorage.setItem("okto_session_info", JSON.stringify(session));
         }
       );
       console.log("authenticated", user);
