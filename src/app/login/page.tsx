@@ -48,6 +48,7 @@ const Login = () => {
           });
         }
       );
+      router.push("/games");
     } catch (error) {
       console.error("Authentication error:", error);
       throw error;
