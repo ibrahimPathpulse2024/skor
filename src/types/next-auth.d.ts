@@ -2,11 +2,12 @@ import { DefaultSession, DefaultUser } from "next-auth";
 
 declare module "next-auth" {
   interface Session {
-    user: {
+    user: DefaultSession["user"] & {
       id: string;
       id_token: string;
       token: string;
-    } & DefaultSession["user"];
+      oktoObject?: any;
+    };
     expires: string;
     id_token: string;
     token: string;
