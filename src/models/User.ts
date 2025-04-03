@@ -13,7 +13,7 @@ const userSchema = new Schema(
       ],
     },
     name: { type: String, required: true, trim: true },
-    image: { type: String, default: "/default-avatar.png" },
+    image: { type: String, default: "/default-avatar.svg" },
     gamerId: { type: String, unique: true },
     createdAt: { type: Date, default: Date.now },
     updatedAt: Date,

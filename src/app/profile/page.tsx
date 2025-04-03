@@ -97,7 +97,7 @@ export default function ProfilePage() {
   };
 
   const removeImage = () => {
-    setProfileImage(userSession?.image || "/default-avatar.png");
+    setProfileImage(userSession?.image || "/default-avatar.svg");
     setShowRemoveOption(false);
   };
 
@@ -205,7 +205,7 @@ export default function ProfilePage() {
               <div className="relative group">
                 <div className="w-24 h-24 rounded-full overflow-hidden bg-[#3a3530] relative">
                   <Image
-                    src={profileImage || "/default-avatar.png"}
+                    src={profileImage || "/default-avatar.svg"}
                     alt="Profile"
                     width={96}
                     height={96}
@@ -213,7 +213,7 @@ export default function ProfilePage() {
                     onLoadingComplete={(img) =>
                       img.classList.remove("opacity-0")
                     }
-                    onError={() => setProfileImage("/default-avatar.png")}
+                    onError={() => setProfileImage("/default-avatar.svg")}
                   />
                 </div>
               </div>
@@ -366,11 +366,12 @@ export default function ProfilePage() {
                 </button>
               </div>
             ) : (
-              <Link href="/buy">
-                {/* <button className="px-6 py-2 bg-[#ee5d4b] text-[0.9rem] rounded-lg text-black font-chakra font-bold hover:bg-[#d44c2a] transition-colors">
-                  Buy Credits
-                </button> */}
-              </Link>
+              <></>
+              // <Link href="/buy">
+              //   <button className="px-6 py-2 bg-[#ee5d4b] text-[0.9rem] rounded-lg text-black font-chakra font-bold hover:bg-[#d44c2a] transition-colors">
+              //     Buy Credits
+              //   </button>
+              // </Link>
             )}
           </div>
         </div>
