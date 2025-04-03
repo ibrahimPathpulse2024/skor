@@ -13,7 +13,7 @@ declare module "next-auth" {
     id: string;
     name?: string | null;
     email?: string | null;
-    profile_img?: string;
+    image?: string;
     hasVisitedQuest?: boolean;
     emailVerified?: boolean;
     remember?: boolean;
@@ -26,6 +26,7 @@ declare module "next-auth" {
       id_token: string;
       token: string;
       oktoObject?: any;
+      gamerId?: string;
     };
   }
 }
@@ -139,8 +140,7 @@ export const nextauthOptions: AuthOptions = {
       console.log(user, account, profile);
 
       if (user != null && account != null && profile != null) {
-        user.profile_img =
-          user.profile_img != null ? user.profile_img : user.image;
+        user.image = user.image != null ? user.image : user.image;
         delete user.image;
         user.hasVisitedQuest = false;
       }
@@ -161,8 +161,8 @@ export const nextauthOptions: AuthOptions = {
       }
 
       if (token && user) {
-        if (user.profile_img) {
-          token.img = user.profile_img;
+        if (user.image) {
+          token.img = user.image;
         }
 
         if (user.id) {
@@ -201,6 +201,21 @@ export const nextauthOptions: AuthOptions = {
         if (token.id) {
           session.user.id = token.id as string;
         }
+      }
+
+      const db = client.db();
+      const userData = await db.collection("users").findOne({
+        email: session.user?.email,
+      });
+
+      if (userData) {
+        session.user = {
+          ...session.user,
+          name: userData.name,
+          email: userData.email,
+          image: userData.image,
+          gamerId: userData.gamerId,
+        };
       }
       session.user.oktoObject = token.oktoObject;
       session.id_token = token.id_token;

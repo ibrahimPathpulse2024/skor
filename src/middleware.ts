@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const guestRoutes = ["/login", "/signup"];
-const authRoutes = ["/games"];
+const authRoutes = ["/games", "/profile"];
 const DEFAULT_LOGIN = "/login";
 
 export async function middleware(request: NextRequest) {
@@ -33,5 +33,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/login", "/signup", "/games"],
+  matcher: ["/login", "/signup", "/games", "/profile"],
 };
