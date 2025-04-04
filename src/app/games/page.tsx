@@ -22,7 +22,11 @@ const GameSelection = () => {
   const oktoClient = useOkto();
   const handleLogout = useHandleLogout();
   const [neverShowPopup, setNeverShowPopup] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(() => {
+    return typeof window !== "undefined"
+      ? !localStorage.getItem("hidePopup")
+      : false;
+  });
   const { data: session, status } = useSession();
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
@@ -74,6 +78,7 @@ const GameSelection = () => {
     setShowPopup(false);
     setNeverShowPopup(true);
   };
+
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
