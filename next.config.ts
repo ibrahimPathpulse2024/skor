@@ -1,9 +1,25 @@
-import type { NextConfig } from "next";
 import CopyPlugin from "copy-webpack-plugin";
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.googleusercontent.com",
+        port: "",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "*.amazonaws.com",
+        port: "",
+        pathname: "**",
+      },
+    ],
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
@@ -15,9 +31,9 @@ const nextConfig: NextConfig = {
       config.externals.push({
         "@tensorflow/tfjs-node": "commonjs @tensorflow/tfjs-node",
         "@mapbox/node-pre-gyp": "commonjs @mapbox/node-pre-gyp",
-        "nock": "commonjs nock",
+        nock: "commonjs nock",
         "node-gyp": "commonjs node-gyp",
-        "npm": "commonjs npm",
+        npm: "commonjs npm",
       });
 
       // Copy package.json if needed.
@@ -37,8 +53,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: "/api/predict", 
-        destination: "https://staging.skoragents.ai/predict", 
+        source: "/api/predict",
+        destination: "https://staging.skoragents.ai/predict",
       },
     ];
   },

@@ -76,7 +76,8 @@ const Login = () => {
   }, []);
 
   return (
-    <section className="w-full h-screen overflow-hidden relative">
+    <section className="w-full h-screen overflow-hidden relative flex flex-col">
+      {/* Background */}
       <div
         className="absolute inset-0 bg-no-repeat bg-cover bg-center z-0"
         style={{ backgroundImage: "url('/bg.svg')" }}
@@ -84,12 +85,12 @@ const Login = () => {
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
+      {/* Header */}
       <Header />
-
-      <main className="relative z-10 h-full flex items-center justify-center p-4">
+      <main className="relative z-10 flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-2xl text-center text-white">
           {loading ? (
-            <div className="space-y-6 animate-pulse">
+            <div className="space-y-6 md:space-y-8 animate-pulse">
               <div className="h-16 bg-gray-800/50 rounded-lg mx-auto max-w-[80%]" />
               <div className="h-5 bg-gray-800/50 rounded-lg mx-auto max-w-[60%]" />
               <div className="flex flex-col space-y-4 items-center mt-8">
@@ -98,7 +99,7 @@ const Login = () => {
               </div>
             </div>
           ) : session ? (
-            <div className="space-y-6">
+            <div className="space-y-6 md:space-y-8">
               <h1 className="text-3xl md:text-4xl font-bold">
                 Welcome, {session.user?.name}!
               </h1>
@@ -132,36 +133,42 @@ const Login = () => {
               </div>
             </div>
           ) : (
-            <div className="space-y-8">
-              <div className="space-y-4">
-                <h1 className="text-5xl md:text-7xl font-bold font-chakra tracking-tight">
+            <div className="space-y-6 md:space-y-8">
+              {/* Text Content */}
+              <div className="space-y-4 -mt-8 md:mt-0">
+                <h1 className="text-3xl md:text-7xl font-bold font-chakra tracking-tight px-4 leading-tight">
                   SIGN UP FOR
                   <br className="hidden md:block" />
                   <span className="md:hidden"> </span>EARLY ACCESS
                 </h1>
-                <p className="text-lg md:text-2xl font-sora text-gray-300">
+                <p className="text-sm md:text-2xl font-sora text-gray-300 px-4">
                   World&apos;s First Real Time AI Coach
                   <br />
                   Play Smarter, Not Harder
                 </p>
               </div>
 
-              <button
-                onClick={handleAuthenticate}
-                disabled={isAuthenticating}
-                className="flex py-2.5 px-10 bg-[#201a18] border-t border-b border-[#ee5d4b] items-center gap-4 w-full md:w-[600px] justify-center mx-auto"
-              >
-                <Image
-                  src="/Search.svg"
-                  alt="Google Icon"
-                  width={24}
-                  height={24}
-                  className="w-5 h-5 md:w-6 md:h-6"
-                />
-                <span className="font-medium text-sm md:text-base">
-                  {isAuthenticating ? "Processing..." : "Continue with Google"}
-                </span>
-              </button>
+              {/* Button Container */}
+              <div className="w-full max-w-[400px] md:max-w-[600px] mx-auto px-4 mt-8">
+                <button
+                  onClick={handleAuthenticate}
+                  disabled={isAuthenticating}
+                  className="w-full flex py-2.5 px-6 md:py-3 md:px-8 bg-[#201a18] border-t border-b border-[#ee5d4b] items-center gap-3 justify-center"
+                >
+                  <Image
+                    src="/Search.svg"
+                    alt="Google Icon"
+                    width={24}
+                    height={24}
+                    className="w-5 h-5 md:w-6 md:h-6"
+                  />
+                  <span className="font-medium text-sm md:text-base">
+                    {isAuthenticating
+                      ? "Processing..."
+                      : "Continue with Google"}
+                  </span>
+                </button>
+              </div>
             </div>
           )}
         </div>

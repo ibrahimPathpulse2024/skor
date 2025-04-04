@@ -13,11 +13,12 @@ declare module "next-auth" {
     id: string;
     name?: string | null;
     email?: string | null;
-    profile_img?: string;
+    image?: string;
     hasVisitedQuest?: boolean;
     emailVerified?: boolean;
     remember?: boolean;
     oktoObject?: any;
+    profile_img?: string; // Add the 'profile_img' property
   }
 
   interface Session {
@@ -26,6 +27,7 @@ declare module "next-auth" {
       id_token: string;
       token: string;
       oktoObject?: any;
+      gamerId?: string;
     };
   }
 }
@@ -33,6 +35,8 @@ declare module "next-auth" {
 declare module "next-auth" {
   interface Profile {
     email_verified?: boolean;
+    profile?: string; // Add the 'profile' property to the Profile interface
+    picture?: string; // Add the 'picture' property to the Profile interface
   }
 }
 
@@ -101,7 +105,6 @@ export const nextauthOptions: AuthOptions = {
           }),
         });
         const res = await response.json();
-        console.log(res);
 
         const user = res?.user; // Extract user from the API response
         if (!user) {
@@ -136,17 +139,16 @@ export const nextauthOptions: AuthOptions = {
   callbacks: {
     async signIn(args) {
       const { user, account, profile } = args;
-      console.log(user, account, profile);
 
       if (user != null && account != null && profile != null) {
-        user.profile_img =
-          user.profile_img != null ? user.profile_img : user.image;
+        user.image = user.profile_img != null ? user.profile_img : user.image;
         delete user.image;
         user.hasVisitedQuest = false;
       }
 
       if (account?.provider === "google") {
         // user.referralCode = `REF-${uuidv4().slice(0, 12)}`;
+        user.image = profile.image || profile.picture || profile.sub;
         user.emailVerified = profile?.email_verified;
       }
       return true;
@@ -201,6 +203,21 @@ export const nextauthOptions: AuthOptions = {
         if (token.id) {
           session.user.id = token.id as string;
         }
+      }
+
+      const db = client.db();
+      const userData = await db.collection("users").findOne({
+        email: session.user?.email,
+      });
+
+      if (userData) {
+        session.user = {
+          ...session.user,
+          name: userData.name,
+          email: userData.email,
+          image: userData.image,
+          gamerId: userData.gamerId,
+        };
       }
       session.user.oktoObject = token.oktoObject;
       session.id_token = token.id_token;
