@@ -1,23 +1,15 @@
 "use client";
-import { useOkto } from "@okto_web3/react-sdk";
+
 import { AnimatePresence, motion } from "framer-motion";
-import Cookies from "js-cookie";
-import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useHandleLogout } from "../utils/auth";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const oktoClient = useOkto();
+  const handleLogout = useHandleLogout();
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
-  const handleLogout = async () => {
-    Cookies.remove("next-auth.session-token");
-    Cookies.remove("accessToken");
-    oktoClient.sessionClear();
-    await signOut();
-  };
 
   useEffect(() => {
     if (isMenuOpen) {

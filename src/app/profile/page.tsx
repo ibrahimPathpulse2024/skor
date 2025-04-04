@@ -237,7 +237,14 @@ export default function ProfilePage() {
                         <input
                           type="file"
                           className="hidden"
-                          onChange={handleImageUpload}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file && file.size > 10 * 1024 * 1024) {
+                              toast.error("File size exceeds 10 MB limit");
+                              return;
+                            }
+                            handleImageUpload(e);
+                          }}
                           accept=".png,.jpg,.jpeg"
                         />
                       </label>
