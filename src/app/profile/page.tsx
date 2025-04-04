@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "react-toastify";
 import Header from "../../components/header";
 import ProfileSkeleton from "../../components/profile/ProfileSkeleton";
 
@@ -97,7 +98,7 @@ export default function ProfilePage() {
   };
 
   const removeImage = () => {
-    setProfileImage(userSession?.image || "/default-avatar.svg");
+    setProfileImage(userSession?.image || "/default-avatar.png");
     setShowRemoveOption(false);
   };
 
@@ -132,6 +133,7 @@ export default function ProfilePage() {
         const { imageUrl: newUrl } = await uploadResponse.json();
         imageUrl = newUrl;
         setProfileImage(newUrl);
+        toast.success("Image uploaded successfully");
       }
 
       // Update profile data
@@ -160,6 +162,7 @@ export default function ProfilePage() {
       localStorage.setItem("profileData", JSON.stringify(updatedData));
       setSelectedFile(null);
       setIsEditing(false);
+      toast.success("Profile updated successfully");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to save profile");
     } finally {
@@ -205,7 +208,7 @@ export default function ProfilePage() {
               <div className="relative group">
                 <div className="w-24 h-24 rounded-full overflow-hidden bg-[#3a3530] relative">
                   <Image
-                    src={profileImage || "/default-avatar.svg"}
+                    src={profileImage || "/default-avatar.png"}
                     alt="Profile"
                     width={96}
                     height={96}
@@ -213,47 +216,53 @@ export default function ProfilePage() {
                     onLoadingComplete={(img) =>
                       img.classList.remove("opacity-0")
                     }
-                    onError={() => setProfileImage("/default-avatar.svg")}
+                    onError={() => setProfileImage("/default-avatar.png")}
                   />
                 </div>
               </div>
 
               {/* Upload Controls */}
               <div className="flex flex-col flex-1">
-                <p className="mb-1 text-[0.7rem] font-sora font-bold text-zinc-400">
-                  Profile Picture
-                </p>
-                <div className="flex flex-wrap items-center gap-2">
-                  <label className="flex items-center gap-2 px-3 py-2 bg-[#3a3530] cursor-pointer hover:bg-[#4a4540] transition-colors">
-                    <Upload className="h-4 w-4" />
-                    <span className="text-[0.7rem] font-sora font-bold text-zinc-400">
-                      Replace File
-                    </span>
-                    <input
-                      type="file"
-                      className="hidden"
-                      onChange={handleImageUpload}
-                      accept=".png,.jpg,.jpeg"
-                    />
-                  </label>
-                  {showRemoveOption && (
-                    <button
-                      onClick={removeImage}
-                      className="flex items-center gap-2 px-3 py-2 bg-[#3a3530] hover:bg-[#4a4540] transition-colors"
-                    >
-                      <CircleMinus className="h-4 w-4" />
-                      <span className="text-[0.7rem] font-sora font-bold text-zinc-400">
-                        Remove Picture
-                      </span>
-                    </button>
-                  )}
-                </div>
-                <p className="text-xs mt-1 text-gray-400 whitespace-nowrap">
-                  (.png, .jpg files up to 10 mb, at least 400px by 400px)
-                </p>
+                {isEditing ? (
+                  <>
+                    <p className="mb-1 text-[0.7rem] font-sora font-bold text-zinc-400">
+                      Profile Picture
+                    </p>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <label className="flex items-center gap-2 px-3 py-2 bg-[#3a3530] cursor-pointer hover:bg-[#4a4540] transition-colors">
+                        <Upload className="h-4 w-4" />
+                        <span className="text-[0.7rem] font-sora font-bold text-zinc-400">
+                          Replace File
+                        </span>
+                        <input
+                          type="file"
+                          className="hidden"
+                          onChange={handleImageUpload}
+                          accept=".png,.jpg,.jpeg"
+                        />
+                      </label>
+                      {showRemoveOption && (
+                        <button
+                          onClick={removeImage}
+                          className="flex items-center gap-2 px-3 py-2 bg-[#3a3530] hover:bg-[#4a4540] transition-colors"
+                        >
+                          <CircleMinus className="h-4 w-4" />
+                          <span className="text-[0.7rem] font-sora font-bold text-zinc-400">
+                            Remove Picture
+                          </span>
+                        </button>
+                      )}
+                    </div>
+                    <p className="text-xs mt-1 text-gray-400 whitespace-nowrap">
+                      (.png, .jpg files up to 10 mb, at least 400px by 400px)
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-xs font-sora font-bold text-zinc-400"></p>
+                )}
               </div>
 
-              <div className="flex-shrink-0 w-full sm:ml-auto sm:w-auto mt-4 sm:mt-0">
+              <div className="flex-shrink-0 w-full sm:ml-auto sm:w-auto sm:mt-0">
                 {!isEditing && (
                   <button
                     onClick={() => setIsEditing(true)}
@@ -354,24 +363,52 @@ export default function ProfilePage() {
               <div className="flex gap-4">
                 <button
                   onClick={handleSave}
-                  className="px-6 py-2 bg-[#ee5d4b] text-black font-chakra font-bold hover:bg-[#d44c2a] transition-colors rounded-lg"
+                  className={`px-6 py-2 ${
+                    uploading
+                      ? "bg-[#ee5d4b] cursor-not-allowed"
+                      : "bg-[#ee5d4b] hover:bg-[#d44c2a]"
+                  } text-black font-chakra font-bold transition-colors rounded-lg flex items-center justify-center`}
+                  disabled={uploading}
                 >
-                  Save Changes
+                  {uploading ? (
+                    <svg
+                      className="animate-spin h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                      ></path>
+                    </svg>
+                  ) : (
+                    "Save Changes"
+                  )}
                 </button>
                 <button
                   onClick={() => setIsEditing(false)}
-                  className="px-6 py-2 bg-gray-600 hover:bg-gray-700 transition-colors rounded-lg"
+                  className="px-6 py-2 border border-[#ee5d4b] text-[#ee5d4b] transition-colors font-chakra  rounded-lg"
                 >
                   Cancel
                 </button>
               </div>
             ) : (
-              <></>
-              // <Link href="/buy">
-              //   <button className="px-6 py-2 bg-[#ee5d4b] text-[0.9rem] rounded-lg text-black font-chakra font-bold hover:bg-[#d44c2a] transition-colors">
-              //     Buy Credits
-              //   </button>
-              // </Link>
+              <Link href="/buy">
+                <></>
+                {/* <button className="px-6 py-2 bg-[#ee5d4b] text-[0.9rem] rounded-lg text-black font-chakra font-bold hover:bg-[#d44c2a] transition-colors">
+                  Buy Credits
+                </button> */}
+              </Link>
             )}
           </div>
         </div>

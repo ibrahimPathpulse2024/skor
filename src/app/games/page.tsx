@@ -4,7 +4,9 @@ import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
+import { toast } from "react-toastify";
 import Header from "../../components/header";
+import { useHandleLogout } from "../../utils/auth";
 import "./games.scss";
 
 const GAME_IMAGES = [
@@ -18,6 +20,7 @@ const GameSelection = () => {
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState<string | null>(null);
   const oktoClient = useOkto();
+  const handleLogout = useHandleLogout();
   const [neverShowPopup, setNeverShowPopup] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const { data: session, status } = useSession();
@@ -107,7 +110,8 @@ const GameSelection = () => {
       console.log("Authenticated successfully", user);
       return user;
     } catch (error) {
-      console.error("Authentication failed:", error);
+      // handleLogout();
+      // toast.error("Okto Authentication failed");
       setAuthError(
         error instanceof Error
           ? error.message
