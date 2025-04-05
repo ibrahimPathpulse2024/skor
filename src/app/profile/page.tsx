@@ -215,29 +215,21 @@ export default function ProfilePage() {
         profileImageD: imageUrl || "/default-avatar.svg",
       };
 
-      if (
-        updatedData.displayName !== profileData.displayName ||
-        updatedData.gamerId !== profileData.gamerId ||
-        updatedData.profileImageD !== profileImage
-      ) {
-        const updateResponse = await fetch("/api/profile/update", {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: updatedData.displayName,
-            gamerId: updatedData.gamerId,
-            image: imageUrl || "/default-avatar.svg",
-          }),
-        });
+      const updateResponse = await fetch("/api/profile/update", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: updatedData.displayName,
+          gamerId: updatedData.gamerId,
+          image: imageUrl || "/default-avatar.svg",
+        }),
+      });
 
-        if (!updateResponse.ok) {
-          const errorData = await updateResponse.json();
-          throw new Error(errorData.error || "Profile update failed");
-        } else {
-          toast.success("Profile updated successfully");
-        }
+      if (!updateResponse.ok) {
+        const errorData = await updateResponse.json();
+        throw new Error(errorData.error || "Profile update failed");
       } else {
-        console.log("No changes detected");
+        toast.success("Profile updated successfully");
       }
 
       await update();
@@ -410,7 +402,8 @@ export default function ProfilePage() {
                     {!isCheckingGamerId &&
                       isGamerIdAvailable &&
                       isGamerIdModified &&
-                      profileData.gamerId && (
+                      profileData.gamerId &&
+                      profileData.gamerId !== initialGamerId && (
                         <p className="text-xs text-green-500">
                           Gamer ID is available!
                         </p>
@@ -496,12 +489,13 @@ export default function ProfilePage() {
                 </button>
               </div>
             ) : (
-              <Link href="/buy">
-                <></>
-                {/* <button className="px-6 py-2 bg-[#ee5d4b] text-[0.9rem] rounded-lg text-black font-chakra font-bold hover:bg-[#d44c2a] transition-colors">
-                  Buy Credits
-                </button> */}
-              </Link>
+              <>
+                {/* <Link href="/buy">
+                  <button className="px-6 py-2 bg-[#ee5d4b] text-[0.9rem] rounded-lg text-black font-chakra font-bold hover:bg-[#d44c2a] transition-colors">
+                    Buy Credits
+                  </button>
+                </Link> */}
+              </>
             )}
           </div>
         </div>
