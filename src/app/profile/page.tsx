@@ -13,6 +13,7 @@ type UserSession = {
   name?: string;
   email?: string;
   image?: string;
+  gamerId?: string;
 };
 
 type ProfileData = {
@@ -38,10 +39,12 @@ export default function ProfilePage() {
   const [gamerIdError, setGamerIdError] = useState("");
   const [isGamerIdAvailable, setIsGamerIdAvailable] = useState(true);
   const [isCheckingGamerId, setIsCheckingGamerId] = useState(false);
+  const [initialGamerId, setInitialGamerId] = useState("");
+  const [isGamerIdModified, setIsGamerIdModified] = useState(false);
 
   const [profileData, setProfileData] = useState<ProfileData>({
     displayName: "Guest",
-    gamerId: "#98976899",
+    gamerId: "",
     email: "email@email.com",
   });
 
@@ -91,12 +94,22 @@ export default function ProfilePage() {
           ? JSON.parse(savedData)
           : {
               displayName: userSession?.name || "Guest",
-              gamerId: "#98976899",
+              gamerId: userSession?.gamerId || "x",
               email: userSession?.email || "email@email.com",
               profileImageD: userSession?.image,
             };
 
+        if (initialData.gamerId === "x") {
+          const response = await fetch("/api/profile/generate-gamerid");
+          if (response.ok) {
+            const { gamerId } = await response.json();
+            initialData.gamerId = gamerId;
+            localStorage.setItem("profileData", JSON.stringify(initialData));
+          }
+        }
+
         setProfileData(initialData);
+        setInitialGamerId(initialData.gamerId);
         setProfileImage(userSession?.image || initialData.profileImageD);
 
         // Simulate combined loading of session and local data
@@ -136,7 +149,7 @@ export default function ProfilePage() {
   };
 
   const removeImage = () => {
-    setProfileImage(userSession?.image || "/default-avatar.png");
+    setProfileImage(userSession?.image || "/default-avatar.svg");
     setShowRemoveOption(false);
   };
 
@@ -145,6 +158,8 @@ export default function ProfilePage() {
     setProfileData((prev) => ({ ...prev, [id]: value }));
 
     if (id === "gamerId") {
+      const isModified = value !== initialGamerId;
+      setIsGamerIdModified(isModified);
       const isValid = /^[a-zA-Z0-9]+$/.test(value);
       if (!isValid) {
         setGamerIdError("Gamer ID must be alphanumeric");
@@ -191,13 +206,13 @@ export default function ProfilePage() {
         const { imageUrl: newUrl } = await uploadResponse.json();
         imageUrl = newUrl;
         setProfileImage(newUrl);
-        toast.success("Image uploaded successfully");
+        toast.success("Image updated successfully");
       }
 
       // Update profile data
       const updatedData = {
         ...profileData,
-        profileImageD: imageUrl,
+        profileImageD: imageUrl || "/default-avatar.svg",
       };
 
       const updateResponse = await fetch("/api/profile/update", {
@@ -206,23 +221,24 @@ export default function ProfilePage() {
         body: JSON.stringify({
           name: updatedData.displayName,
           gamerId: updatedData.gamerId,
-          image: imageUrl,
+          image: imageUrl || "/default-avatar.svg",
         }),
       });
 
       if (!updateResponse.ok) {
         const errorData = await updateResponse.json();
         throw new Error(errorData.error || "Profile update failed");
+      } else {
+        toast.success("Profile updated successfully");
       }
 
-      // Refresh session data
       await update();
       localStorage.setItem("profileData", JSON.stringify(updatedData));
       setSelectedFile(null);
       setIsEditing(false);
-      toast.success("Profile updated successfully");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to save profile");
+      console.log(error);
     } finally {
       setUploading(false);
     }
@@ -266,7 +282,7 @@ export default function ProfilePage() {
               <div className="relative group">
                 <div className="w-24 h-24 rounded-full overflow-hidden bg-[#3a3530] relative">
                   <Image
-                    src={profileImage || "/default-avatar.png"}
+                    src={profileImage || "/default-avatar.svg"}
                     alt="Profile"
                     width={96}
                     height={96}
@@ -274,7 +290,7 @@ export default function ProfilePage() {
                     onLoadingComplete={(img) =>
                       img.classList.remove("opacity-0")
                     }
-                    onError={() => setProfileImage("/default-avatar.png")}
+                    onError={() => setProfileImage("/default-avatar.svg")}
                   />
                 </div>
               </div>
@@ -385,7 +401,9 @@ export default function ProfilePage() {
                     )}
                     {!isCheckingGamerId &&
                       isGamerIdAvailable &&
-                      profileData.gamerId && (
+                      isGamerIdModified &&
+                      profileData.gamerId &&
+                      profileData.gamerId !== initialGamerId && (
                         <p className="text-xs text-green-500">
                           Gamer ID is available!
                         </p>
@@ -430,11 +448,13 @@ export default function ProfilePage() {
                 <button
                   onClick={handleSave}
                   className={`px-6 py-2 ${
-                    uploading || !isGamerIdAvailable
+                    uploading || (!isGamerIdAvailable && isGamerIdModified)
                       ? "bg-[#bb827b] cursor-not-allowed"
                       : "bg-[#ee5d4b] hover:bg-[#d44c2a]"
                   } text-black font-chakra font-bold transition-colors rounded-lg flex items-center justify-center`}
-                  disabled={uploading || !isGamerIdAvailable}
+                  disabled={
+                    uploading || (!isGamerIdAvailable && isGamerIdModified)
+                  }
                 >
                   {uploading ? (
                     <svg
@@ -469,12 +489,13 @@ export default function ProfilePage() {
                 </button>
               </div>
             ) : (
-              <Link href="/buy">
-                <></>
-                {/* <button className="px-6 py-2 bg-[#ee5d4b] text-[0.9rem] rounded-lg text-black font-chakra font-bold hover:bg-[#d44c2a] transition-colors">
-                  Buy Credits
-                </button> */}
-              </Link>
+              <>
+                {/* <Link href="/buy">
+                  <button className="px-6 py-2 bg-[#ee5d4b] text-[0.9rem] rounded-lg text-black font-chakra font-bold hover:bg-[#d44c2a] transition-colors">
+                    Buy Credits
+                  </button>
+                </Link> */}
+              </>
             )}
           </div>
         </div>
