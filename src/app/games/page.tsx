@@ -150,9 +150,9 @@ const GameSelection = () => {
   }, [imagesLoaded, status, idToken]);
 
   return (
-    <section className="w-screen min-h-screen overflow-y-auto">
+    <section className="max-w-screen min-h-screen overflow-x-hidden">
       <div
-        className="relative min-h-screen w-screen bg-no-repeat bg-cover bg-center"
+        className="relative min-h-screen max-w-screen bg-no-repeat bg-cover bg-center"
         style={{ backgroundImage: "url('/bg.svg')" }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
@@ -291,26 +291,26 @@ const GameSelection = () => {
               </div>
             ))}
           </div>
-
-          {/* <div className="mt-12 md:mt-16">
+          {/* 
+          <div className="mt-12 md:mt-16">
             <Link
               href="/buy"
-              className="flex bg-gradient-to-r from-[#ee5d4b] to-[#ec4632] px-5 py-2 md:px-8 md:py-4 border-2 border-black items-center gap-4 md:gap-6 text-base md:text-lg font-chakra font-bold hover:opacity-90 rounded-lg transition-opacity"
+              className="inline-flex items-center justify-center gap-3 md:gap-4 px-2 py-2 md:px-2 md:py-2 border-1 border-black rounded-lg font-chakra font-bold text-sm md:text-base bg-gradient-to-r from-[#ee5d4b] to-[#ec4632] hover:opacity-90 transition-opacity"
             >
               <Image
                 src="/bl.svg"
                 alt="Left Icon"
-                width={24}
-                height={24}
-                className="w-6 h-6 md:w-7 md:h-7"
+                width={20}
+                height={20}
+                className="w-5 h-5 md:w-6 md:h-6 object-contain aspect-square"
               />
-              BUY CREDITS
+              <span className="whitespace-nowrap">BUY CREDITS</span>
               <Image
                 src="/br.svg"
                 alt="Right Icon"
-                width={24}
-                height={24}
-                className="w-6 h-6 md:w-7 md:h-7"
+                width={20}
+                height={20}
+                className="w-5 h-5 md:w-6 md:h-6 object-contain aspect-square"
               />
             </Link>
           </div> */}
