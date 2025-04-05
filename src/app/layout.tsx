@@ -43,7 +43,6 @@ const sora = Sora({
   variable: "--font-sora",
 });
 
-
 const metadata = {
   title: "Skor",
   description: "Skor",
@@ -106,9 +105,9 @@ export default function RootLayout({ children }) {
             <body className={`${chakraPetch.variable} ${sora.variable}`}>
               <ToastContainer
                 position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
+                autoClose={2000}
+                hideProgressBar={true}
+                newestOnTop={true}
                 closeOnClick
                 rtl={false}
                 pauseOnFocusLoss
