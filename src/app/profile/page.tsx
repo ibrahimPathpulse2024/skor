@@ -35,6 +35,9 @@ export default function ProfilePage() {
 
   const [showRemoveOption, setShowRemoveOption] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [gamerIdError, setGamerIdError] = useState("");
+  const [isGamerIdAvailable, setIsGamerIdAvailable] = useState(true);
+  const [isCheckingGamerId, setIsCheckingGamerId] = useState(false);
 
   const [profileData, setProfileData] = useState<ProfileData>({
     displayName: "Guest",
@@ -43,6 +46,41 @@ export default function ProfilePage() {
   });
 
   const [profileImage, setProfileImage] = useState(userSession?.image);
+
+  const debounce = (func: (...args: any[]) => void, delay: number) => {
+    let timeoutId: NodeJS.Timeout;
+    return (...args: any[]) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => func(...args), delay);
+    };
+  };
+
+  const checkGamerIdAvailability = useMemo(
+    () =>
+      debounce(async (gamerId: string) => {
+        if (!gamerId) return;
+
+        setIsCheckingGamerId(true);
+        try {
+          const response = await fetch(
+            `/api/profile/check-gamerid?gamerId=${encodeURIComponent(gamerId)}`
+          );
+
+          if (!response.ok) throw new Error("Failed to check Gamer ID");
+
+          const data = await response.json();
+          setIsGamerIdAvailable(data.available);
+          setGamerIdError(
+            data.available ? "" : "This Gamer ID is already taken"
+          );
+        } catch (err) {
+          setGamerIdError("Error checking Gamer ID availability");
+        } finally {
+          setIsCheckingGamerId(false);
+        }
+      }, 500),
+    []
+  );
 
   useEffect(() => {
     const loadProfileData = async () => {
@@ -104,16 +142,36 @@ export default function ProfilePage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setProfileData((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
+    setProfileData((prev) => ({ ...prev, [id]: value }));
+
+    if (id === "gamerId") {
+      const isValid = /^[a-zA-Z0-9]+$/.test(value);
+      if (!isValid) {
+        setGamerIdError("Gamer ID must be alphanumeric");
+        setIsGamerIdAvailable(false);
+      } else {
+        setGamerIdError("");
+        checkGamerIdAvailability(value);
+      }
+    }
   };
 
   const handleSave = async () => {
     try {
       setUploading(true);
       let imageUrl = profileImage;
+
+      if (profileData.gamerId) {
+        const isValid = /^[a-zA-Z0-9]+$/.test(profileData.gamerId);
+        if (!isValid || !isGamerIdAvailable) {
+          setGamerIdError(
+            !isValid
+              ? "Gamer ID must be alphanumeric"
+              : "This Gamer ID is already taken"
+          );
+          return;
+        }
+      }
 
       // Upload new image if exists
       if (selectedFile) {
@@ -239,8 +297,8 @@ export default function ProfilePage() {
                           className="hidden"
                           onChange={(e) => {
                             const file = e.target.files?.[0];
-                            if (file && file.size > 10 * 1024 * 1024) {
-                              toast.error("File size exceeds 10 MB limit");
+                            if (file && file.size > 2 * 1024 * 1024) {
+                              toast.error("File size exceeds 2 MB limit");
                               return;
                             }
                             handleImageUpload(e);
@@ -261,7 +319,7 @@ export default function ProfilePage() {
                       )}
                     </div>
                     <p className="text-xs mt-1 text-gray-400 whitespace-nowrap">
-                      (.png, .jpg files up to 10 mb, at least 400px by 400px)
+                      (.png, .jpg files up to 2 MB)
                     </p>
                   </>
                 ) : (
@@ -316,22 +374,23 @@ export default function ProfilePage() {
                     onChange={handleInputChange}
                     className="w-full p-3 bg-[#3a3530] border border-[#4a4540] focus:outline-none focus:ring-1 focus:ring-[#d44c2a] rounded-md"
                   />
-                </div>
-                <div className="md:col-span-2">
-                  <label
-                    htmlFor="email"
-                    className="block mb-2 text-sm font-sora text-zinc-400"
-                  >
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    value={profileData.email}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-[#3a3530] border border-[#4a4540] focus:outline-none focus:ring-1 focus:ring-[#d44c2a] rounded-md"
-                    disabled
-                  />
+                  <div className="h-4 mt-1">
+                    {isCheckingGamerId && (
+                      <p className="text-xs text-gray-400">
+                        Checking availability...
+                      </p>
+                    )}
+                    {!isCheckingGamerId && gamerIdError && (
+                      <p className="text-xs text-red-500">{gamerIdError}</p>
+                    )}
+                    {!isCheckingGamerId &&
+                      isGamerIdAvailable &&
+                      profileData.gamerId && (
+                        <p className="text-xs text-green-500">
+                          Gamer ID is available!
+                        </p>
+                      )}
+                  </div>
                 </div>
               </>
             ) : (
@@ -371,11 +430,11 @@ export default function ProfilePage() {
                 <button
                   onClick={handleSave}
                   className={`px-6 py-2 ${
-                    uploading
-                      ? "bg-[#ee5d4b] cursor-not-allowed"
+                    uploading || !isGamerIdAvailable
+                      ? "bg-[#bb827b] cursor-not-allowed"
                       : "bg-[#ee5d4b] hover:bg-[#d44c2a]"
                   } text-black font-chakra font-bold transition-colors rounded-lg flex items-center justify-center`}
-                  disabled={uploading}
+                  disabled={uploading || !isGamerIdAvailable}
                 >
                   {uploading ? (
                     <svg
