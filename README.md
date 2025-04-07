@@ -1,4 +1,4 @@
-# Skor Ai
+# Skor AI
 
 ## Environment Variables
 
