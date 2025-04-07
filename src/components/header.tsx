@@ -57,6 +57,19 @@ function Header() {
             {/* Add more nav links here */}
           </div>
 
+          {/* Logout Button - Desktop */}
+          <div className="hidden md:flex items-center gap-4">
+            <button onClick={handleLogout}>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                className="flex items-center gap-2 text-gray-400 hover:text-white"
+              >
+                <Image src="/logout.svg" alt="Logout" width={20} height={20} />
+                <span className="font-chakra">Logout</span>
+              </motion.button>
+            </button>
+          </div>
+
           {/* Animated Menu Button */}
           <motion.button
             className="md:hidden"
