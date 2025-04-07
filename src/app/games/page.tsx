@@ -295,7 +295,7 @@ const GameSelection = () => {
           <div className="mt-12 md:mt-16">
             <Link
               href="/buy"
-              className="inline-flex items-center justify-center gap-3 md:gap-4 px-2 py-2 md:px-2 md:py-2 border-1 border-black rounded-lg font-chakra font-bold text-sm md:text-base bg-gradient-to-r from-[#ee5d4b] to-[#ec4632] hover:opacity-90 transition-opacity"
+              className="inline-flex items-center justify-center gap-3 md:gap-4 px-2 py-2 md:px-2 md:py-2 border border-black rounded-lg font-chakra font-bold text-sm md:text-base bg-gradient-to-r from-[#ee5d4b] to-[#ec4632] hover:opacity-90 transition-opacity"
             >
               <Image
                 src="/bl.svg"
