@@ -36,6 +36,19 @@ const GameSelection = () => {
     [session]
   );
 
+  async function handleSyncToSheet() {
+    try {
+      const response = await fetch("/api/sync-to-sheet", {
+        method: "POST",
+      });
+
+      if (!response.ok) throw new Error("Sync failed");
+      const data = await response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     const popupPreference = localStorage.getItem("hidePopup");
     if (!popupPreference) {
@@ -62,7 +75,6 @@ const GameSelection = () => {
     };
 
     loadImages();
-
     const userAgent = navigator.userAgent.toLowerCase();
     const mobileDevices =
       /android|webos|iphone|ipad|ipod|blackberry|windows phone/;
@@ -111,7 +123,7 @@ const GameSelection = () => {
           localStorage.setItem("okto_session_info", JSON.stringify(session));
         }
       );
-
+      handleSyncToSheet();
       console.log("Authenticated successfully", user);
       return user;
     } catch (error) {
