@@ -1,6 +1,6 @@
 # Skor AI
 
-## Environment Variables
+## Environment Variables *
 
 To run this project, you need to set up the following environment variables:
 
