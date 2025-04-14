@@ -133,7 +133,7 @@ const Login = () => {
               </div>
             </div>
           ) : (
-            <div className="space-y-6 md:space-y-8">
+            <div className="space-y-6 md:space-y-8" id="login-button">
               {/* Text Content */}
               <div className="space-y-4 -mt-8 md:mt-0">
                 <h1 className="text-3xl md:text-7xl font-bold font-chakra tracking-tight px-4 leading-tight">

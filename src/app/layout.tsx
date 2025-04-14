@@ -27,7 +27,7 @@ interface ConfigContextType {
 
 const ConfigContext = createContext<ConfigContextType>({
   config: defaultConfig,
-  setConfig: () => {},
+  setConfig: () => { },
 });
 
 const STORAGE_KEY = "okto_config";
@@ -101,8 +101,27 @@ export default function RootLayout({ children }) {
                 href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
                 rel="stylesheet"
               />
+              <script
+                dangerouslySetInnerHTML={{
+                  __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-P6Z2CMZJ');
+            `,
+                }}
+              />
             </head>
             <body className={`${chakraPetch.variable} ${sora.variable}`}>
+              <noscript>
+                <iframe
+                  src="https://www.googletagmanager.com/ns.html?id=GTM-P6Z2CMZJ"
+                  height="0"
+                  width="0"
+                  style={{ display: 'none', visibility: 'hidden' }}
+                />
+              </noscript>
               <ToastContainer
                 position="top-right"
                 autoClose={2000}
