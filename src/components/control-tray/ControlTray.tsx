@@ -136,10 +136,10 @@ function ControlTray({
   
     if (shareStartTime) {
       const endTime = Date.now();
-      const durationInSeconds = Math.floor((endTime - shareStartTime) / 1000 /60) ;
+      const durationInSeconds = Math.floor((endTime - shareStartTime) / 1000 / 60) ;
       setShareStartTime(null);
   
-      await fetch("/api/sharescreen-duration", {
+      await fetch("/api/screenshare-duration", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ duration: durationInSeconds }),
