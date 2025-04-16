@@ -175,6 +175,7 @@ const GameSelection = () => {
         {!isMobile && (
           <div>
             <button
+              id="instructions-button"
               className="md:fixed md:top-20 top-24 right-4 bg-[#ee5d4b] text-black px-4 py-2 rounded-lg shadow-lg z-50 hover:bg-[#EE5D4B] transition-transform md:scale-100 scale-90"
               onClick={togglePopup}
             >
@@ -225,12 +226,14 @@ const GameSelection = () => {
 
                         <div className="flex justify-between">
                           <button
+                            id="close-popup-button"
                             onClick={closePopup}
                             className="flex bg-[#282828] px-2.5 py-1 items-center text-lg font-chakra font-bold hover:opacity-90 text-[#ee5d4b] transition-opacity border-b-2 border-b-[#ED523F] border-r-2 border-r-[#ED523F]"
                           >
                             Close
                           </button>
                           <button
+                            id="never-show-popup-button"
                             onClick={handleNeverShowPopup}
                             className="flex bg-[#282828] px-2.5 py-1 items-center text-lg font-chakra font-bold hover:opacity-90 text-[#ee5d4b] transition-opacity border-b-2 border-b-[#ED523F] border-r-2 border-r-[#ED523F]"
                           >
@@ -289,6 +292,7 @@ const GameSelection = () => {
                       className="absolute bottom-0 w-full h-[20%] flex items-center justify-center"
                     >
                       <button
+                        id={index === 0 ? "share-screen-button" : `coming-soon-button-${index}`}
                         className={`w-[90%] text-center text-[#070604] text-sm md:text-base font-semibold py-2.5 uppercase ${
                           index === 0
                             ? "bg-[#ee5d4b] hover:bg-[#ec4632]"

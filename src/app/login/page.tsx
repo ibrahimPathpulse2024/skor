@@ -110,6 +110,7 @@ const Login = () => {
               <div className="flex flex-col gap-4 max-w-xs mx-auto">
                 <Link href="/games">
                   <button
+                    id="continue-button"
                     className="w-full py-3 bg-[#201a18] border border-[#ee5d4b] rounded-lg
                     hover:bg-[#ee5d4b]/10 transition-all duration-300"
                     onClick={handleAuthenticate}
@@ -122,6 +123,7 @@ const Login = () => {
                 </Link>
 
                 <button
+                  id="logout-button"
                   onClick={handleLogout}
                   className="w-full py-3 bg-[#ee5d4b] rounded-lg
                   hover:bg-[#ee5d4b]/90 transition-all duration-300"
@@ -151,6 +153,7 @@ const Login = () => {
               {/* Button Container */}
               <div className="w-full max-w-[400px] md:max-w-[600px] mx-auto px-4 mt-8">
                 <button
+                  id="google-login-button"
                   onClick={handleAuthenticate}
                   disabled={isAuthenticating}
                   className="w-full flex py-2.5 px-6 md:py-3 md:px-8 bg-[#201a18] border-t border-b border-[#ee5d4b] items-center gap-3 justify-center"

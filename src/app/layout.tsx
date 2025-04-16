@@ -112,6 +112,17 @@ export default function RootLayout({ children }) {
             `,
                 }}
               />
+              <script async src="https://www.googletagmanager.com/gtag/js?id=G-00EJ1M09K1"></script>
+              <script
+                dangerouslySetInnerHTML={{
+                  __html: `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-00EJ1M09K1');
+    `,
+                }}
+              />
             </head>
             <body className={`${chakraPetch.variable} ${sora.variable}`}>
               <noscript>
