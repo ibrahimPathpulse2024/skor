@@ -57,6 +57,7 @@ function ControlTray({
   const renderCanvasRef = useRef<HTMLCanvasElement>(null);
   const connectButtonRef = useRef<HTMLButtonElement>(null);
   const { client, connected, connect, disconnect, volume } = useLiveAPIContext();
+  const [shareStartTime, setShareStartTime] = useState<number | null>(null);
 
   useEffect(() => {
     if (!connected && connectButtonRef.current) {
@@ -122,19 +123,33 @@ function ControlTray({
     };
   }, [connected, activeVideoStream, client, videoRef]);
 
-  // Handler for swapping video streams.
   const changeStreams = (next?: UseMediaStreamResult) => async () => {
     if (next) {
       const mediaStream = await next.start();
       setActiveVideoStream(mediaStream);
       onVideoStreamChange(mediaStream);
+      setShareStartTime(Date.now());
     } else {
       setActiveVideoStream(null);
       onVideoStreamChange(null);
     }
+  
+    if (shareStartTime) {
+      const endTime = Date.now();
+      const durationInSeconds = Math.floor((endTime - shareStartTime) / 1000 / 60) ;
+      setShareStartTime(null);
+  
+      await fetch("/api/screenshare-duration", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ duration: durationInSeconds }),
+      });      
+    }
+  
     videoStreams.filter((msr) => msr !== next).forEach((msr) => msr.stop());
   };
-
+  
+  
   return (
     <section className="control-tray">
       <canvas style={{ display: "none" }} ref={renderCanvasRef} />
@@ -164,11 +179,19 @@ function ControlTray({
       </nav>
       <div className={cn("connection-container", { connected })}>
         <div className="connection-button-container">
-          <button
+           <button
             ref={connectButtonRef}
-            className={cn("action-button connect-toggle", { connected })}
-            onClick={connected ? disconnect : connect}
-          >
+                className={cn("action-button connect-toggle", { connected })}
+                onClick={async () => {
+                  if (connected) {
+                    await changeStreams()();
+                  
+                    disconnect();
+                  } else {
+                    connect();
+                  }
+                }}
+              >
             <span className="material-symbols-outlined filled">
               {connected ? "pause" : "play_arrow"}
             </span>
@@ -176,7 +199,6 @@ function ControlTray({
         </div>
         <span className="text-indicator">Streaming</span>
       </div>
-      {/* Render the MapIdentifier when screen capture is active */}
       {supportsVideo && screenCapture.isStreaming && (
         <div className="map-identifier-container">
           <MapIdentifier videoRef={videoRef} />
