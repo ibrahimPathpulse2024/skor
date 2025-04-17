@@ -2,3 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+.custom-clip {
+    clip-path: polygon(2% 0, 97.3% 0, 95% 100%, 0% 100%);
+}
+    

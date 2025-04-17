@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "skot",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "preview": "next start",
     "lint": "next lint"
@@ -57,6 +57,7 @@
     "react-syntax-highlighter": "^15.6.1",
     "react-toastify": "^11.0.3",
     "sass": "^1.83.4",
+    "skor_cs2": "file:",
     "stripe": "^17.7.0",
     "tailwind-merge": "^2.6.0",
     "vega": "^5.31.0",
