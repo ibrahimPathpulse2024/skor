@@ -148,8 +148,8 @@ function Header() {
 
                 <Link href="/nfts">
                   <motion.p
-                    whileHover={{ scale: 1.05, color: "#ee5d4b" }}
-                    className="font-chakra text-white font-bold transition-colors"
+                    whileHover={{ x: 10 }}
+                    className="font-chakra text-white text-xl hover:text-[#ee5d4b] transition-colors"
                   >
                     NFTS
                   </motion.p>
