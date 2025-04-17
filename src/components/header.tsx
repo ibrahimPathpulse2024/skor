@@ -62,17 +62,27 @@ function Header() {
                 STAKING
               </motion.p>
             </Link>
+
+            <Link href="/nfts">
+              <motion.p
+                whileHover={{ scale: 1.05, color: "#ee5d4b" }}
+                className="font-chakra text-white font-bold transition-colors"
+              >
+                NFTS
+              </motion.p>
+            </Link>
           </div>
 
           {/* Logout Button - Desktop */}
           <div className="hidden md:flex items-center gap-4">
-              <motion.button onClick={handleLogout}
-                whileHover={{ scale: 1.05 }}
-                className="flex items-center gap-2 text-gray-400 hover:text-white"
-              >
-                <Image src="/logout.svg" alt="Logout" width={20} height={20} />
-                <span className="font-chakra">Logout</span>
-              </motion.button>
+            <motion.button
+              onClick={handleLogout}
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center gap-2 text-gray-400 hover:text-white"
+            >
+              <Image src="/logout.svg" alt="Logout" width={20} height={20} />
+              <span className="font-chakra">Logout</span>
+            </motion.button>
           </div>
 
           <motion.button
@@ -133,6 +143,15 @@ function Header() {
                     className="font-chakra text-white text-xl hover:text-[#ee5d4b] transition-colors"
                   >
                     STAKING
+                  </motion.p>
+                </Link>
+
+                <Link href="/nfts">
+                  <motion.p
+                    whileHover={{ scale: 1.05, color: "#ee5d4b" }}
+                    className="font-chakra text-white font-bold transition-colors"
+                  >
+                    NFTS
                   </motion.p>
                 </Link>
               </nav>
