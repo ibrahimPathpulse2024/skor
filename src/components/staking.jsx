@@ -17,23 +17,23 @@
     const unstakingHistory = [
         {
         id: 1,
-        date: 'Yesterday',
+        date: '---',
         amount: '---',
-        timeLeft: '0 days left',
+        timeLeft: '---',
         claimed: true,
         },
         {
         id: 2,
-        date: 'Yesterday',
+        date: '---',
         amount: '---',
-        timeLeft: '6 days left',
+        timeLeft: '---',
         claimed: false,
         },
         {
         id: 3,
-        date: '0/0/0',
+        date: '---',
         amount: '---',
-        timeLeft: '0 days left',
+        timeLeft: '----',
         claimed: false,
         },
     ];
@@ -93,7 +93,7 @@
                 Staking History
             </h3>
             <div className="w-full text-white text-sm font-sora border-t border-white/20">
-                <div className="grid grid-cols-4 py-2 border-b border-white/20 text-white/60 font-semibold uppercase text-[10px]">
+                <div className="grid grid-cols-4 text-center py-2 border-b border-white/20 text-white/60 font-semibold uppercase text-[10px]">
                 <div>Date</div>
                 <div>Staked Amount</div>
                 <div>Time Left</div>
@@ -103,14 +103,14 @@
                 {unstakingHistory.map((entry) => (
                 <div
                     key={entry.id}
-                    className="grid grid-cols-4 py-3 items-center text-[8px]"
+                    className="grid grid-cols-4 py-3 text-center items-center text-[8px]"
                 >
                     <div>{entry.date}</div>
                     <div className="font-bold">{entry.amount}</div>
                     <div>{entry.timeLeft}</div>
                     <div>
                     {entry.claimed ? (
-                        <div className="flex items-center gap-2 text-white">
+                        <div className="flex items-center text-center justify-center gap-2 text-white">
                         <Image
                             src="/claimed.svg"
                             alt="Claim Icon"
@@ -196,7 +196,7 @@
         
         <div className="flex flex-col sm:flex-row justify-between items-center gap-x-10 space-y-6 ">
         <div className="text-white/80 text-lg font-bold font-chakra leading-relaxed mt-0 sm:mt-6 ml-0 sm:ml-4">
-            APY
+            TBA
         </div>
             {stakingOptions.map((option) => (
             <button

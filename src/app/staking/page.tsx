@@ -10,7 +10,7 @@ const StakingPage = () => {
       <div className="w-full">
         <Header />
       </div>
-      <div className="text-[#EE5D4B] text-5xl sm:text-7xl font-chakra font-bold pt-10 flex justify-center items-center">
+      <div className="text-[#EE5D4B] text-5xl sm:text-[100px] font-chakra font-bold pt-10 flex justify-center items-center">
         Coming Soon
       </div>
       <div className="mt-10 px-4 sm:px-6 md:px-10 w-full justify-center flex flex-col items-center">
