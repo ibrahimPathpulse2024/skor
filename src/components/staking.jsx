@@ -8,10 +8,10 @@
     const [isStaking, setIsStaking] = useState(true);
 
     const stakingOptions = [
-        { days: '60 Days', apy: '6.25%' },
-        { days: '90 Days', apy: '8.5%' },
-        { days: '120 Days', apy: '10%' },
-        { days: '365 Days', apy: '12%' },
+        { days: '60 Days', apy: '8%' },
+        { days: '90 Days', apy: '12%' },
+        { days: '120 Days', apy: '16%' },
+        { days: '365 Days', apy: '20%' },
     ];
 
     const unstakingHistory = [
