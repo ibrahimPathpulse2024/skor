@@ -7,13 +7,18 @@ export default {
   theme: {
     extend: {
       keyframes: {
+        heartbeat: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '25%': { transform: 'scale(1.2)' },
+        },
         shrinkInOut: {
           '0%, 80%': { transform: 'scale(0.6)' },
           '25%': { transform: 'scale(0.2)' },  
         },
       },
       animation: {
-        shrinkInOut: 'shrinkInOut 1.5s infinite', 
+        shrinkInOut: 'shrinkInOut 1.5s infinite',
+        heartbeat: 'heartbeat 1.5s infinite',
       },
       fontFamily: {
         chakra: ['"Chakra Petch"', 'sans-serif'], 

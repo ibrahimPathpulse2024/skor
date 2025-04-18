@@ -196,7 +196,7 @@
         
         <div className="flex flex-col sm:flex-row justify-between items-center gap-x-10 space-y-6 ">
         <div className="text-white/80 text-lg font-bold font-chakra leading-relaxed mt-0 sm:mt-6 ml-0 sm:ml-4">
-            TBA
+            APY
         </div>
             {stakingOptions.map((option) => (
             <button
@@ -216,12 +216,12 @@
     </div>
         <div className="flex flex-col sm:flex-row justify-between items-center w-full gap-6">
         {/* Badge + Offer */}
-        <div className="px-3.5 py-2 bg-black rounded-full shadow-[0px_2.9px_34.8px_-7.2px_rgba(238,93,75,0.50)] outline outline-1 outline-offset-[-0.95px] outline-white/20 inline-flex items-center gap-1.5">
+        <div className="px-3.5 py-2 bg-black rounded-full shadow-[0px_2.9px_34.8px_-7.2px_rgba(238,93,75,0.50)] outline outline-1 outline-offset-[-0.95px] outline-white/20 inline-flex items-center gap-1.5 animate-heartbeat">
             <div className="p-1 bg-red-500 rounded-full inline-flex justify-center items-center">
             <div className="text-black text-[9px] font-bold font-sora">NEW</div>
             </div>
             <div className="text-red-500 text-[10px] font-normal font-sora text-center leading-relaxed">
-            Limited-Time: Extra 20% APY on All Tiers!
+            Upto 20% APY on All Tiers   
             </div>
         </div>
 
