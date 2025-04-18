@@ -7,13 +7,45 @@
     const [selectedPeriod, setSelectedPeriod] = useState('60');
     const [isStaking, setIsStaking] = useState(true);
 
-    const stakingOptions = [
+    const numericAmount = parseFloat(amount);
+    let tierImage = '/golden.svg'
+    let StakingOptions = [
         { days: '60 Days', apy: '8%' },
         { days: '90 Days', apy: '12%' },
         { days: '120 Days', apy: '16%' },
         { days: '365 Days', apy: '20%' },
     ];
 
+    if (numericAmount < 3000 && amount !== '') {
+    tierImage = '/golden.svg'
+    }
+    else if (numericAmount >= 3000 && numericAmount < 40000) {
+    tierImage = '/bronze.svg' 
+    StakingOptions = [
+        { days: '60 Days', apy: '4%' },
+        { days: '90 Days', apy: '6%' },
+        { days: '120 Days', apy: '8%' },
+        { days: '365 Days', apy: '10%' },
+    ];
+    }
+    else if (numericAmount >= 40000 && numericAmount < 100000) {
+    tierImage = '/Silver.svg'
+    StakingOptions = [
+        { days: '60 Days', apy: '6%' },
+        { days: '90 Days', apy: '9%' },
+        { days: '120 Days', apy: '12%' },
+        { days: '365 Days', apy: '15%' },
+    ];
+    }
+    else if (numericAmount >= 100000) {
+    tierImage = '/golden.svg'
+    StakingOptions = [
+        { days: '60 Days', apy: '8%' },
+        { days: '90 Days', apy: '12%' },
+        { days: '120 Days', apy: '16%' },
+        { days: '365 Days', apy: '20%' },
+    ];
+    }
     const unstakingHistory = [
         {
         id: 1,
@@ -52,24 +84,28 @@
 
         {isStaking && (
             <div className="p-4 bg-[#111410] border border-white/20 text-white text-sm font-bold font-chakra uppercase">
-            <div className="relative bg-zinc-800/40 p-6 sm:p-20 mt-6 ml-0 sm:ml-4">
+            <div className="relative bg-zinc-800/40 p-6 sm:p-24 mt-6 ml-0 sm:ml-4">
             <Image
             src="/Background.svg"
             alt="Background Decoration"
             width={475}
             height={50}
-            className="hidden sm:block absolute top-0 left-0 z-10 pointer-events-none ml-[60px]"
+            className="hidden sm:block absolute top-0 left-0 z-10 pointer-events-none ml-[60px] mt-8"
             /> 
                 $SKORAI
                 <div className="bg-[#111410] border border-white/20 rounded-lg px-4 py-3 flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-3 mt-2">
                 <div>
-                    <Image
-                    src="/bronze.svg"
-                    alt="Circles"
-                    width={40}
-                    height={40}
-                    className="w-10 h-10"
-                    />
+                    {
+                        tierImage && (
+                            <Image
+                            src={tierImage}
+                            alt="Tier Icon"
+                            width={40}
+                            height={40}
+                            className="object-contain"
+                            />
+                        )
+                    }
                 </div>
                 <input
                     type="number"
@@ -79,13 +115,13 @@
                     onChange={(e) => setAmount(e.target.value)}
                 />
                 </div>
+                {numericAmount < 3000 && amount !== '' && (
+            <p className="text-red-500 text-xs mt-1">Invalid – minimum 3000 tokens</p>
+        )}
                 <Statusbar segments={3} filled={10} />
             </div>
             </div>
         )}
-
-
-        
 
         {!isStaking && (
             <div className="mt-10">
@@ -175,7 +211,7 @@
         <div className="text-white/80 text-lg font-bold font-chakra leading-relaxed">
             Lockup
         </div>
-            {stakingOptions.map((option) => (
+            {StakingOptions.map((option) => (
             <button
                 key={option.days}
                 onClick={() => setSelectedPeriod(option.days)}
@@ -198,7 +234,7 @@
         <div className="text-white/80 text-lg font-bold font-chakra leading-relaxed mt-0 sm:mt-6 ml-0 sm:ml-4">
             APY
         </div>
-            {stakingOptions.map((option) => (
+            {StakingOptions.map((option) => (
             <button
                 key={option.days}
                 onClick={() => setSelectedPeriod(option.days)}
@@ -221,7 +257,7 @@
             <div className="text-black text-[9px] font-bold font-sora">NEW</div>
             </div>
             <div className="text-red-500 text-[10px] font-normal font-sora text-center leading-relaxed">
-            Upto 20% APY on All Tiers   
+            Limited Time Offer:Upto an additional 20% APY            
             </div>
         </div>
 
