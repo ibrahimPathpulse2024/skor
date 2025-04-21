@@ -28,7 +28,7 @@
         { days: '365 Days', apy: '10%' },
     ];
     }
-    else if (numericAmount >= 40000 && numericAmount < 100000) {
+    else if (numericAmount >= 40000 && numericAmount < 100000) { 
     tierImage = '/Silver.svg'
     StakingOptions = [
         { days: '60 Days', apy: '6%' },
@@ -254,10 +254,10 @@
         {/* Badge + Offer */}
         <div className="px-3.5 py-2 bg-black rounded-full shadow-[0px_2.9px_34.8px_-7.2px_rgba(238,93,75,0.50)] outline outline-1 outline-offset-[-0.95px] outline-white/20 inline-flex items-center gap-1.5 animate-heartbeat">
             <div className="p-1 bg-red-500 rounded-full inline-flex justify-center items-center">
-            <div className="text-black text-[9px] font-bold font-sora">NEW</div>
+            <div className="text-black text-[9px] font-bold font-sora">Offer</div>
             </div>
             <div className="text-red-500 text-[10px] font-normal font-sora text-center leading-relaxed">
-            Limited Time Offer:Upto an additional 20% APY            
+            Limited Time: Upto an additional 20% APY            
             </div>
         </div>
 
