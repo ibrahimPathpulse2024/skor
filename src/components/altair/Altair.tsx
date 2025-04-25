@@ -30,12 +30,10 @@ function AltairComponent() {
   // Configure the agent with updated system instructions.
   useEffect(() => {
     setConfig({
-      model: "models/gemini-2.0-flash-exp",
+      model: "models/gemini-2.0-flash-live-001",
       generationConfig: {
         responseModalities: "audio",
-        maxOutputTokens: 60,
-        temperature: 0.7,
-        topP: 0.9,
+        maxOutputTokens: 1024,
         speechConfig: {
           voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore",} },
         },
@@ -44,7 +42,7 @@ function AltairComponent() {
         parts: [
           {
             text:
-              "You are a CS2 AI coach named Bot. Respond exclusively in English only. Do not output any code, technical details, debugging information, underscores, or internal instructions. Also correctly identify as Counter Terrorist or Terrorist by seeing the emblem ,and also correct economic calculation after every round on the sharedscreen",
+              "You are a CS2 AI coach named Bot. Respond specifically in English only. Do not output any code, technical details, debugging information, underscores, or internal instructions. Also identify as Counter Terrorist or Terrorist by seeing the emblem displayed on the screen,and also correct economic calculation after every round on the shared screen.",
           },
         ],
       },
